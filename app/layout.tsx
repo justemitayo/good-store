@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import Navbar from "./content/Navbar";
+import ProductClient from "./content/productClient";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,12 +29,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
  
       <body >
-        <ThemeProvider attribute='class' defaultTheme="system" enableSystem>
-          <Navbar />
-          <main className=" mx-auto w-full px-4 sm:px-12 lg:px-16">
-           {children}
-          </main>
-        </ThemeProvider>
+        <ProductClient>
+          <ThemeProvider attribute='class' defaultTheme="system" enableSystem>
+            <Navbar />
+            <main className=" mx-auto w-full px-4 sm:px-12 lg:px-16">
+              {children}
+            </main>
+          </ThemeProvider>
+        </ProductClient>
       </body>
     </html>
   );

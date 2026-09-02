@@ -30,6 +30,6 @@ const productSchema = new Schema({
       value: [String]
     }
   ]
-})
+}, {timestamps: true})
 
 export default mongoose.model('product', productSchema)

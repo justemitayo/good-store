@@ -1,9 +1,9 @@
-interface serverResponse {
+export interface serverResponse {
   message: string,
   success: boolean
 }
 
-interface products {
+export interface products {
   _id: string
   name: string,
   category: string,
@@ -17,7 +17,9 @@ interface products {
   option: {
     title: string,
     value: string[]
-  }[]
+  }[],
+  createdAt: string,
+  updatedAt: string
 }
 
 export interface createProduct {
@@ -39,15 +41,22 @@ export interface createProduct {
 
 
 export interface updateProduct extends Partial<createProduct> {
-  id: string
+  _id: string
 }
 
-export interface deleteProduct extends Partial<createProduct> {
-  id: string 
+export interface deleteProduct {
+  _id: string 
 }
 
 export interface getProductsResponse extends serverResponse {
   data: products[]
+  pagination: {
+    page: number,
+    limit: number,
+    total: number,
+    totalPages: number,
+    nextPage: number | null 
+  }
 }
 
 export interface getProductResponse extends serverResponse {
@@ -62,6 +71,6 @@ export interface updateProductReponse extends serverResponse {
   data: products
 }
 
-export interface deleteProductResponse {
-  data: products
+export interface deleteProductResponse extends serverResponse {
+  data: { acknowledged: boolean, deletedCount: number }
 }
