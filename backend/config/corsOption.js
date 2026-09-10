@@ -1,4 +1,4 @@
-export const whitelist = ['https://www.goodStore.com', 'http://127.0.0.1/3000', 'http://127.0.0.1/5500' ]
+export const whitelist = ['https://www.goodStore.com', 'http://localhost:3000', 'http://localhost:5500' ]
 
 const corsOption = {
   origin: (origin, callback) => {
@@ -8,7 +8,10 @@ const corsOption = {
       callback(new Error('Not Allowed by CORS'))
     }
   },
+  credentials: true,
   optionSuccessStatus: 200
 }
 
 export default corsOption
+
+// remove !origin in production. it there so our local host can run 

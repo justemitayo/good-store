@@ -10,7 +10,7 @@ import productRouter from './routes/api/product.js';
 
 connectDB()
 
-const port = process.env.P0RT || 5500
+const port = process.env.PORT || 5500
 
 const app = express()
 

@@ -7,6 +7,7 @@ export const getAllProduct = async (req, res) => {
     const skip = (page - 1)* limit;
     const search = req.query.search || '';
 
+
     const query = search ? {
       $or: [
         {name:{$regex: search, $options: 'i'}},
@@ -15,7 +16,7 @@ export const getAllProduct = async (req, res) => {
       ]
     } : {}
 
-  const total = await product.countDocuments(query);
+  const total = await Product.countDocuments(query);
   const product = await Product.find(query).sort({createdAt: -1}).skip(skip).limit(limit)
   if(!product) {
     return res.status(204).json({success: false, message: "no product found"})
@@ -28,8 +29,8 @@ export const getAllProduct = async (req, res) => {
       page, 
       limit,
       total,
-      totalPages: math.ceil(total / limit),
-      nextPage: page < math.ceil(total/ limit)? page + 1 : null
+      totalPages: Math.ceil(total / limit),
+      nextPage: page < Math.ceil(total/ limit)? page + 1 : null
     } 
   })
   } catch (err) {
@@ -47,8 +48,8 @@ export const postProduct = async(req, res) => {
       category: req.body.category,
       description: req.body.description,
       image: {
-        url: req.body.image?.url,
-        publicId: req.body.image?.publicId
+        url: req.file?.path,
+        publicId: req.file?.filename
       },
       price: req.body.price,
       quantity: req.body.quantity,
@@ -65,30 +66,33 @@ export const updateProduct = async(req, res) => {
   if(!req.params.id){
     return res.status(400).json({success: false, message : "Product ID is required"})
   }
-  const product = await Product.findOne({_id: req.params.id})
+  let product = await Product.findOne({_id: req.params.id})
   if(!product) {
     return res.status(404).json({success: false, message: `There is no content present in user ${req.params.id}`})
   }
-  if(req.body.name) {
+  if(req.body.name !== undefined) {
     product.name = req.body.name
   }
-  if(req.body.category) {
+  if(req.body.category !== undefined) {
     product.category = req.body.category
   }
-  if(req.body.image) {
+  if(req.body.image !== undefined) {
     product.image = {
-      url: req.body.image?.url,
-      publicId: req.body.image?.publicId
+      url: req.file?.path,
+      publicId: req.file?.filename
     }
   }
-  if(req.body.price) {
+  if(req.body.price !== undefined) {
     product.price = req.body.price
   }
-  if(req.body.quantity) {
+  if(req.body.quantity !== undefined) {
     product.quantity = req.body.quantity
   }
-  if(req.body.option) {
-    product.option = req.body.option
+  if(req.body.option !== undefined) {
+    product.option = JSON.parse(req.body.option)
+  }
+  if(req.body.description !== undefined) {
+    product.description = req.body.description
   }
   const result = await product.save()
 

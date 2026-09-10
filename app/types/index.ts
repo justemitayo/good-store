@@ -28,10 +28,7 @@ export interface createProduct {
   price: number,
   description: string,
   quantity: number,
-  image: {
-    url: string,
-    publicId: string
-  },
+  image: File,
   option: {
     title: string,
     value: string[]

@@ -4,14 +4,17 @@ import { upload } from '../../config/cloudinary.js'
 
 const productRouter = express.Router()
 
-productRouter.route('/')
-  .get(getAllProduct)
-  .post(upload.single("image"), postProduct)
-  .put(updateProduct)
-  .delete(deleteProduct)
+
+
 
 productRouter.route('/:id')
   .get(getProduct)
+  .put(upload.single("image"), updateProduct)
+  .delete(deleteProduct)
 
+  
+  productRouter.route('/')
+  .get(getAllProduct)
+  .post(upload.single("image"), postProduct)
 
 export default productRouter

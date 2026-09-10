@@ -13,16 +13,35 @@ export const getProduct = async(id: string): Promise<getProductResponse> => {
 };
 
 export const postProduct = async(payload: createProduct): Promise<createProductResponse> => {
-  const res = await api.post('/products/new', payload)
+  const formData = new FormData()
+  formData.append('name', payload.name ?? '')
+  formData.append('category', payload.category ?? '')
+  formData.append('image' , payload.image ?? '')
+  formData.append('description' , payload.description ?? '')
+  formData.append('price', String(payload.price ?? ''))
+  formData.append('quantity', String(payload.quantity ?? ''))
+  formData.append('option', String(payload.option ?? ''));
+  
+  const res = await api.post('/products', formData)
   return res.data
 };
 
 export const updProduct = async(payload: updateProduct): Promise<updateProductReponse> => {
-  const res =  await api.put(`/products/${payload._id}`, payload)
+  const formData = new FormData()
+  formData.append('name', payload.name ?? '')
+  formData.append('category', payload.category ?? '')
+  formData.append('description' , payload.description ?? '')
+  formData.append('price', String(payload.price ?? ''))
+  formData.append('quantity', String(payload.quantity ?? ''))
+  formData.append('option', JSON.stringify(payload.option ?? []))
+  if(payload.image instanceof File) {
+    formData.append('image', payload.image)
+  }
+  const res =  await api.put(`/products/${payload._id}`, formData)
   return res.data
 };
 
 export const delProduct = async(payload: deleteProduct): Promise<deleteProductResponse> => {
-  const res = await api.delete(`/product/${payload._id}`)
+  const res = await api.delete(`/products/${payload._id}`)
   return res.data
 };
