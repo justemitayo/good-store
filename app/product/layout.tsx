@@ -11,9 +11,9 @@ export const metadata: Metadata = {
 
 export default function ProductLayout({ children }: LayoutProps<"/">) {
   return (
-      <body>
+      <div>
         {children}
-      </body>
+      </div>
 
   );
 }

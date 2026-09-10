@@ -31,8 +31,11 @@ export default function EditPage() {
   }
 
   return (
-    <div>
-      <CircleChevronLeft  size={30} className='cursor-pointer' onClick={() => router.back()}/>
+    <div className='mt-2'>
+      <div className='flex items-center mb-2'>
+       <CircleChevronLeft  size={30} className='cursor-pointer' onClick={() => router.back()}/>
+           <h1 className='text-center flex-1 text-lg font-bold'>Create Your Own Product</h1>
+       </div>
       <ProductForm product={product!}/>
     </div>
 

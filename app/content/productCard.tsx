@@ -1,4 +1,5 @@
 
+
 import { products } from '../types'
 import { useRouter } from 'next/navigation'
 
@@ -25,7 +26,7 @@ export default function ProductCard({product}: prop) {
       <div className='flex flex-col gap-[3rem]'>
       <div className='flex items-center justify-between p-3 gap-[1rem]'>
         <h2 className='text-lg truncate'>{product.name}</h2>
-        <p className='flex shrink-0'>{product.createdAt ? new Date(product.createdAt).toLocaleDateString('en-US'): 'N/A'}</p>
+        <p className='flex shrink-0'>{product?.updatedAt ? new Date(product.updatedAt).toLocaleDateString('en-US') : new Date(product.createdAt).toLocaleDateString('en-US')}</p>
       </div>
       <div className='flex items-center justify-between p-3 gap-[1rem]'>
         <h2 className='text-lg flex items-center'><span className='text-2xl'>$</span>{product.price}</h2>

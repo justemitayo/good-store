@@ -1,21 +1,47 @@
 'use client'
 import { useGetProduct } from '@/app/hook/product/query'
 import { useParams } from 'next/navigation'
-import { CircleChevronLeft } from 'lucide-react'
+import { CircleChevronLeft, Trash2 } from 'lucide-react'
 import React from 'react'
 import { useRouter } from 'next/navigation'
 import { SquarePen } from 'lucide-react'
+import { useDelProduct } from '@/app/hook/product/mutate'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 export default function ProductId() {
   const {id} = useParams()
   const {data, isLoading, isError} = useGetProduct(id as string)
   const product = data?.data
   const router = useRouter()
+  const delProduct = useDelProduct()
 
   const [selected, setSelected] = React.useState<{[key: string]: string}>({});
   const [readMore, setReadMore] = React.useState(false);
 
   
+  const handleDelete = () => {
+    if(!product?._id) return
+
+    if(!confirm('Are you sure you want to delete this product?')) return
+    
+    delProduct.mutate({
+      _id: product?._id
+    }, {
+      onSuccess: () => {
+        router.back()
+      }
+    })
+  }
 
   if(isLoading) {
     return(
@@ -34,11 +60,32 @@ export default function ProductId() {
     )
   }
 
+  
+
   return (
     <div className='w-[100%] mt-3 flex flex-col gap-[2rem] w-full'>
       <div className='flex items-center justify-between'>
       <CircleChevronLeft  size={30} className='cursor-pointer' onClick={() => router.back()}/>
-        <SquarePen size={30} className='cursor-pointer' onClick={() => router.push(`/product/${id}/edit`)}/>
+      <div className='flex gap-[1.5rem]'>
+        <SquarePen size={30} className='cursor-pointer hover:text-green-500 transition-colors' onClick={() => router.push(`/product/${id}/edit`)}/>
+        <AlertDialog>
+          <AlertDialogTrigger>
+            <Trash2 size={30} className='cursor-pointer hover:text-red-500 transition-colors'/>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This will permanently delete this product.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={handleDelete}>Delete</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      </div>
       </div>
       <div className=' md:flex md:items-start md:justify-between md:gap-[2rem]'>
         <div className=' relative md:w-[70%]'> 
@@ -55,7 +102,7 @@ export default function ProductId() {
         <div className='md:w-[35%]'>
         <div className='flex items-center justify-between mt-2'>
           <h1 className='text-3xl font-bold truncate'>{product?.name}</h1>
-          <p className='flex shrink-0'>{product?.createdAt ? new Date(product?.createdAt).toLocaleDateString('en-US'): 'N/A'}</p>
+          <p className='flex shrink-0'>{product?.updatedAt ? new Date(product!.updatedAt).toLocaleDateString('en-US') : new Date(product!.createdAt).toLocaleDateString('en-US')}</p>
         </div>
 
         <div className='mt-2 mb-1'>

@@ -14,13 +14,15 @@ export const getProduct = async(id: string): Promise<getProductResponse> => {
 
 export const postProduct = async(payload: createProduct): Promise<createProductResponse> => {
   const formData = new FormData()
-  formData.append('name', payload.name ?? '')
-  formData.append('category', payload.category ?? '')
-  formData.append('image' , payload.image ?? '')
-  formData.append('description' , payload.description ?? '')
-  formData.append('price', String(payload.price ?? ''))
-  formData.append('quantity', String(payload.quantity ?? ''))
-  formData.append('option', String(payload.option ?? ''));
+  formData.append('name', payload.name)
+  formData.append('category', payload.category )
+  formData.append('description' , payload.description)
+  formData.append('price', String(payload.price))
+  formData.append('quantity', String(payload.quantity ))
+  formData.append('option', String(payload.option ));
+  if(payload.image instanceof File) {
+    formData.append('image', payload.image)
+  }
   
   const res = await api.post('/products', formData)
   return res.data
