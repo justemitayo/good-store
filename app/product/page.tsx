@@ -32,7 +32,7 @@ export default function ProductPage() {
   }
 
   const products = data?.pages.flatMap((data) => data.data ) ?? []
-  const filteredProducts = category ? products.filter((product) => product.category === category) : products
+  const filteredProducts = (category ? products.filter((product) => product.category === category) : products).sort((a, b) => new Date(b?.updatedAt).getTime() - new Date(a?.updatedAt).getTime() )
  
   return (
     <div className=' w-[100%] mb-8' >
