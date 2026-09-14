@@ -66,7 +66,7 @@ export const updateProduct = async(req, res) => {
   if(!req.params.id){
     return res.status(400).json({success: false, message : "Product ID is required"})
   }
-  let product = await Product.findOne({_id: req.params.id})
+  let product = await Product.findOne({_id: req.params.id}).exec()
   if(!product) {
     return res.status(404).json({success: false, message: `There is no content present in user ${req.params.id}`})
   }
@@ -107,7 +107,7 @@ export const deleteProduct = async (req, res) => {
   if(!req.params.id){
     return res.status(400).json({success: false, message: "product ID is required"})
   }
-  const product = await Product.findOne({_id: req.params.id})
+  const product = await Product.findOne({_id: req.params.id}).exec()
   if(!product) {
     return res.status(404).json({ success: false, message: `no product found for ${req.params.id}`})
   }
@@ -123,7 +123,7 @@ export const getProduct = async(req, res) => {
   if(!req.params.id){
     return res.status(400).json({success: false, message: "Product ID is required" })
   }
-  const product = await Product.findOne({_id: req.params.id})
+  const product = await Product.findOne({_id: req.params.id}).exec()
 
   if(!product) {
     return res.status(404).json({success: false, message: `no product found for id ${req.params.id}`})
