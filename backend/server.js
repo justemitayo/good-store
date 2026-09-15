@@ -6,6 +6,8 @@ import credentials from "./middleware/credentials.js";
 import mongoose from "mongoose";
 import connectDB from './config/mongo.js';
 import productRouter from './routes/api/product.js';
+import userRouter from './routes/api/User.js';
+import cookieParser from 'cookie-parser';
 
 
 connectDB()
@@ -18,10 +20,13 @@ const app = express()
 app.use(credentials)
 app.use(cors(corsOption))
 
+app.use(cookieParser())
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: false}))
 
 app.use('/products', productRouter)
+app.use('/auth', userRouter)
 
 mongoose.connection.once('open', () => {
   console.log('mongodb connected successfully');
