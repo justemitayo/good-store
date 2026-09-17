@@ -1,6 +1,6 @@
 
 
-import { products } from '../types'
+import { products } from '../types/product'
 import { useRouter } from 'next/navigation'
 
 interface prop {

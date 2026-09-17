@@ -1,5 +1,5 @@
 import api from "@/lib/axios";
-import { createProduct, createProductResponse, deleteProduct, deleteProductResponse, getProductResponse, getProductsResponse, updateProduct, updateProductReponse } from "../types";
+import { createProduct, createProductResponse, deleteProduct, deleteProductResponse, getProductResponse, getProductsResponse, updateProduct, updateProductReponse } from "../types/product";
 
 
 export const getProducts = async({page, limit, search} : {page: number, limit: number, search? : string}): Promise<getProductsResponse> => {

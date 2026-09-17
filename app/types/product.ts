@@ -71,3 +71,4 @@ export interface updateProductReponse extends serverResponse {
 export interface deleteProductResponse extends serverResponse {
   data: { acknowledged: boolean, deletedCount: number }
 }
+

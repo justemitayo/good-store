@@ -1,5 +1,5 @@
 import { getProduct, getProducts } from "@/app/api/product";
-import { getProductResponse, getProductsResponse } from "@/app/types";
+import { getProductResponse, getProductsResponse } from "@/app/types/product";
 import { useInfiniteQuery, useQuery, type InfiniteData } from "@tanstack/react-query";
 
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { products } from '../types'
+import { products } from '../types/product'
 import { useUpdProduct } from '../hook/product/mutate'
 import { SquarePlus, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';

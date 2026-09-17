@@ -1,5 +1,5 @@
 import { delProduct, postProduct, updProduct } from "@/app/api/product";
-import { createProduct, createProductResponse, deleteProduct, deleteProductResponse, updateProduct, updateProductReponse } from "@/app/types";
+import { createProduct, createProductResponse, deleteProduct, deleteProductResponse, updateProduct, updateProductReponse } from "@/app/types/product";
 import { useQueryClient, UseMutationResult, useMutation } from "@tanstack/react-query";
 
 export const usePostProduct = ():UseMutationResult< createProductResponse , Error, createProduct > => {
