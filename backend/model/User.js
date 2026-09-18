@@ -15,6 +15,14 @@ const UserSchema = new Schema({
     lowercase: true, 
     trim: true
   },
+  roles: {
+    User: {
+      type: Number,
+      default: 2001
+    },
+    Editor: Number, 
+    Admin: Number
+  },
   RefreshToken: String
 }, {timestamps: true}) //automatically adds createdAt and updatedAt 
 
