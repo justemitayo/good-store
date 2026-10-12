@@ -22,7 +22,7 @@ export default function CreateProductForm() {
   const [previewImage, setPreviewImage] = React.useState<File>()
   const [option, setOption] = React.useState<{title:string; value:string[]}[]>([]);
 
-  const handleSubmit = async(e: React.FormEvent<Element>) => {
+  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     postProduct.mutate({
       name,
