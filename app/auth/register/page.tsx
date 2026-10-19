@@ -14,7 +14,9 @@ export default function RegisterPage() {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
     const email = formData.get('email') as string
+    if (!email) return 
 
+    localStorage.setItem('userMail', email)
     getOTP.mutate(
       { email },
       {

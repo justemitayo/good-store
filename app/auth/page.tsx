@@ -1,8 +1,10 @@
-import React from 'react'
+'use client'
+import { useRouter } from 'next/navigation'
 
 export default function Registerpage() {
-  return (
-    <div>page</div>
-  )
+  const router = useRouter()
+
+  router.push('/auth/register')
+  return
 }
 
