@@ -4,6 +4,10 @@ import React from 'react'
 import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogFooter } from './alert-dialog'
 import { Button } from './button'
 
+export interface alerProp {
+  title: string
+  description: string
+}
 interface AlertProps {
   title: string
   description: string
