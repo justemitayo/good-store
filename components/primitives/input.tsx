@@ -7,6 +7,7 @@ type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
 
 export function Input({ className, error, variant = 'text', ...props }: InputProps) {
   return (
+    <div className='w-full flex flex-col gap-1'>
     <input
       type={variant}
       className={cn(
@@ -18,5 +19,9 @@ export function Input({ className, error, variant = 'text', ...props }: InputPro
       )}
       {...props}
     />
+    {typeof error === 'string' && error && (
+      <p className="text-xs text-red-500 ml-1">{error}</p>
+    )}
+    </div>
   )
 }

@@ -61,7 +61,7 @@ export default function VerifyOTPPage() {
       {email, otp},
       {
         onSuccess: () => {
-          router.push('/auth/newReg')
+          router.push('/auth/new-reg')
         }, 
         onError: () => {
           setAlert({

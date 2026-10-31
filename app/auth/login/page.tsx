@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation'
 import { useState } from 'react';
 import { Eye, EyeClosed } from 'lucide-react';
+import { validateEmail } from '@/lib/utils';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -16,12 +17,20 @@ export default function LoginPage() {
   const updateAuth = useAuthStore().updateAuth
   const [alert, setAlert] = useState<alerProp | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] =useState('')
+  const [emailError, setEmailError] = useState(false)
 
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget)
-    const email = formData.get('email') as string;
     const password =  formData.get('password') as string
+        const isEmailValid = validateEmail(email);
+        if(!isEmailValid) {
+          setEmailError(true);
+          return
+        } else{
+          setEmailError(false)
+        }
     if(!email || !password) return;
 
     loginUser.mutate(
@@ -68,6 +77,12 @@ export default function LoginPage() {
           id="email"
           name="email"
           type="email"
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value)
+            if (emailError) setEmailError(false)
+          }}
+          error={emailError}
           required
           placeholder="Your email address"
           className="w-full"

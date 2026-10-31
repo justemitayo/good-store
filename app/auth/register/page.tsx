@@ -6,18 +6,28 @@ import { useGetOTP } from '@/app/hook/user/mutate'
 import { Input } from '@/components/primitives/input'
 import { Button } from '@/components/ui/button'
 import { alerProp, Alert, } from '@/components/ui/alert'
+import { validateEmail } from '@/lib/utils'
+import Link from 'next/link'
 
 export default function RegisterPage() {
   const getOTP = useGetOTP()
   const router = useRouter()
 
-  const [alert , setAlert] = useState<alerProp | null>(null)
+  const [alert , setAlert] = useState<alerProp | null>(null);
+  const [emailError, setEmailError] = useState(false);
+  const [email, setEmail] = useState('');
+
 
 
   const handleGetOTP = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const formData = new FormData(e.currentTarget)
-    const email = formData.get('email') as string
+    const isEmailValid = validateEmail(email);
+    if(!isEmailValid) {
+      setEmailError(true);
+      return
+    } else{
+      setEmailError(false)
+    }
     if (!email) return 
 
     localStorage.setItem('userMail', email)
@@ -64,6 +74,12 @@ export default function RegisterPage() {
             id="email"
             name="email"
             type="email"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value)
+              if (emailError) setEmailError(false)
+            }}
+            error= {emailError}
             required
             placeholder="Your email address"
             className="w-full"
@@ -72,9 +88,8 @@ export default function RegisterPage() {
 
         <div className='flex gap-2'>
           <span>Already got an account?</span>
-          <p className='text-purple-500 hover:underline cursor-pointer' 
-            onClick={() => router.push('/auth/login')}
-          >login here</p>
+          <Link  href='/auth/login' className='text-purple-500 hover:underline cursor-pointer' 
+          >login here</Link>
         </div>
 
         <Button
