@@ -1,48 +1,98 @@
 'use client'
 
-import { useGetOTP, useVerifyOTP } from '@/app/hook/user/mutate';
+import { useGetOTP, useResetPasswordOTP, useVerifyOTP } from '@/app/hook/user/mutate';
 import { Alert } from '@/components/ui/alert';
 import { OTPField, OTPFieldInput } from '@/components/ui/OTP';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import  React, { useEffect, useState } from 'react'
 
-interface alerProp {
+type alerProp = {
   title: string
   description: string
 }
+
+type switchCase = 'register' | 'reset-password';
 
 export default function VerifyOTPPage() {
   const [timer, setTimer] = useState(60);
   const [noResend, setNoResend] = useState(true);
   const [alert, setAlert] = useState<alerProp | null>(null); 
   const [email, setEmail] = useState('')
-  const router = useRouter()
+  const router = useRouter();
+  const searchParams = useSearchParams()
   const getOTP = useGetOTP();
+  const resetPasswordOTP = useResetPasswordOTP()
   const verifyOTP = useVerifyOTP();
+
+  const flow = (searchParams.get('flow') as switchCase) || 'register'
 
   const otpLength = 6
   const id = React.useId()
-  const descriptionId = `${id}-dexcription`;
+  const descriptionId = `${id}-description`;
+
+  const handleSwitch = (switchCase: switchCase) => {
+    switch(switchCase) {
+      case 'register': 
+        return(
+          getOTP.mutate(
+            {email},
+            {
+              onSuccess: () => {
+                setAlert({
+                title: 'success', 
+                description: 'OTP resent successfully'
+              })},
+              onError: () => {
+                  setAlert({
+                    title:'Error',
+                    description:'Failed to resend OTP. Please wait before trying again.'
+                  })
+              }
+            }
+          )
+        );
+      case 'reset-password': 
+        return (
+          resetPasswordOTP.mutate(
+            {email},
+            {
+              onSuccess: () => {
+                setAlert({
+                title: 'success', 
+                description: 'OTP resent successfully'
+              })},
+              onError: () => {
+                  setAlert({
+                    title:'Error',
+                    description:'Failed to resend OTP. Please wait before trying again.'
+                  })
+              }
+            }
+          )
+        )
+      default:
+        return false
+
+    }
+  }
+
+  const handleRoute = (switchCase: switchCase) => {
+    switch(switchCase) {
+      case 'register': 
+        return router.push('/auth/new-reg');
+      case 'reset-password': 
+        return router.push('/auth/reset-password');
+
+
+      default: 
+        return false
+    }
+  }
   
   const handleResendOTP = () => {
     setNoResend(true)
     setTimer(60)
-    getOTP.mutate(
-      {email},
-      {
-        onSuccess: () => {
-          setAlert({
-          title: 'success', 
-          description: 'OTP resent successfully'
-        })},
-        onError: () => {
-            setAlert({
-              title:'Error',
-              description:'Failed to resend OTP. Please wait before trying again.'
-            })
-        }
-      }
-    )
+    handleSwitch(flow)
   }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -61,7 +111,7 @@ export default function VerifyOTPPage() {
       {email, otp},
       {
         onSuccess: () => {
-          router.push('/auth/new-reg')
+         handleRoute(flow)
         }, 
         onError: () => {
           setAlert({
@@ -126,16 +176,22 @@ export default function VerifyOTPPage() {
         </div>
         <div>
           <button type="submit" className="w-full bg-purple-500 text-white py-2 rounded">
-            Verify OTP
+          {verifyOTP.isPending ? 'Verifying...' : 'Verify OTP'}
           </button>
-          <span
-            onClick={noResend === false ? handleResendOTP : undefined}
-           className={`mt-2 inline-block cursor-pointer ${
-            noResend ? 'text-red-400 cursor-not-allowed' : 'text-purple-500 hover:underline'
-          }`}
-        >
-          {noResend? `Resend OTP in ${timer}` : 'Resend OTP'}
-          </span>
+          <div className="text-center mt-2">
+            <button
+              type="button"
+              onClick={handleResendOTP}
+              disabled={noResend || getOTP.isPending || resetPasswordOTP.isPending}
+              className={`text-sm ${
+                noResend 
+                  ? 'text-muted-foreground cursor-not-allowed' 
+                  : 'text-purple-500 hover:underline cursor-pointer'
+              }`}
+            >
+              {noResend ? `Resend OTP in ${timer}s` : 'Resend OTP'}
+            </button>
+          </div>
         </div>
 
       </form>

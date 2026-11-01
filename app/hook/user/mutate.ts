@@ -26,8 +26,8 @@ export const useResetPassword = (): UseMutationResult<authResponse, Error, login
   })
 }
 
-export const useResetPasswordOTP = (): UseMutationResult<verifyOTPResponse, Error, verifyOTPRequest> => {
-  return useMutation<verifyOTPResponse, Error, verifyOTPRequest> ({
+export const useResetPasswordOTP = (): UseMutationResult<getOTPResponse, Error, getOTPRequest> => {
+  return useMutation<getOTPResponse, Error, getOTPRequest> ({
     mutationFn: resetPasswordOTP
   })
 }
