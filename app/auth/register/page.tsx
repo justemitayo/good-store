@@ -35,7 +35,7 @@ export default function RegisterPage() {
       { email },
       {
         onSuccess: () => {
-          router.push('/auth/verify-otp')
+          router.push('/auth/verify-otp?flow=register')
         },
         onError: () => {
           setAlert({

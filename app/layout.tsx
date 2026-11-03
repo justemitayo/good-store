@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import Navbar from "./content/Navbar";
 import ProductClient from "./content/productClient";
+import { AuthProvider } from "./context/auth/auth";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,14 +29,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-100vh antialiased`}
     >
  
-      <body  >
+      <body>
         <ProductClient>
+          <AuthProvider>
           <ThemeProvider attribute='class' defaultTheme="system" enableSystem>
             <Navbar />
             <main className=" mx-auto w-full px-4 sm:px-12 lg:px-16">
               {children}
             </main>
           </ThemeProvider>
+          </AuthProvider>
         </ProductClient>
       </body>
     </html>

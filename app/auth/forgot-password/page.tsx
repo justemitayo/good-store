@@ -29,7 +29,7 @@ export default function ForgotPassWordPage() {
       {email},
       {
         onSuccess: () => {
-          router.push('/auth/verify-otp')
+          router.push('/auth/verify-otp?flow=reset-password')
         },
         onError: () => {
           setAlert({

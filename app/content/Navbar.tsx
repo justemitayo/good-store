@@ -6,11 +6,14 @@ import { X, Sun, Moon } from 'lucide-react';
 import {DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu'
 import { useTheme } from 'next-themes';
 import { useSyncExternalStore } from 'react'
+import { useAuthStore } from '../store/auth.store';
 
 //set onclick on everything should have setopen(false) 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
-  const {theme, setTheme} = useTheme()
+  const {theme, setTheme} = useTheme();
+  const auth = useAuthStore().auth
+
 
   const mounted = useSyncExternalStore(
     () => () => {},
@@ -19,7 +22,7 @@ export default function Navbar() {
   )
   return (
     <div className='h-18 top-0 sticky z-50 flex justify-between items-center border-b-4 border-purple-500 w-full px-4 sm:px-12 lg:px-16 bg-white/80 dark:bg-black/80 backdrop-blur-md'>
-      <h1 className='text-3xl text-purple-500 font-bold' >Goodstore</h1>
+      <Link className='text-3xl text-purple-500 font-bold' href='/' >Goodstore</Link>
       <div className='flex items-center gap-[1rem]'>
       {mounted && (
       <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
@@ -39,8 +42,16 @@ export default function Navbar() {
                 </DropdownMenuContent>
           </DropdownMenu>
           <Link href="/cart" className='hover:text-purple-500'>Cart</Link>
-          <Link href="/new" className='hover:text-purple-500'>New</Link>
-          <Link href="/account" className='hover:text-purple-500'>Account</Link>
+          {auth ?   (
+              <Link href="/new" className='hover:text-purple-100'>New</Link>
+              ):  <></>  }
+              {auth ? (
+                <Link href="/account" className='hover:text-purple-100'>Account</Link>): (
+                <Link href='/auth/login' className='hover:text-purple-100'>Log in</Link>)
+
+              }
+
+            
         </li>
       </ul>
 
@@ -67,8 +78,16 @@ export default function Navbar() {
                 </DropdownMenuContent>
               </DropdownMenu>
               <Link href="/cart" className='hover:text-purple-100'>Cart</Link>
+              {auth ?   (
               <Link href="/new" className='hover:text-purple-100'>New</Link>
-              <Link href="/account" className='hover:text-purple-100'>Account</Link>
+              ):  <></>  }
+              {auth ? (
+                <Link href="/account" className='hover:text-purple-100'>Account</Link>): (
+                <Link href='/auth/login' className='hover:text-purple-100'>Log in</Link>)
+
+              }
+
+              
             </li>
           </ul>
         </div>
