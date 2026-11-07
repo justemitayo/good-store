@@ -7,22 +7,22 @@ export const loginUser = async(payload: loginRequest): Promise<authResponse> => 
 }
 
 export const getOTP = async(payload: getOTPRequest): Promise<getOTPResponse> => {
-  const res = await api.post('/auth/register', payload)
+  const res = await api.post('/auth/sendOTP', payload)
   return res.data
 }
 
 export const verifyOTP = async(payload: verifyOTPRequest): Promise<verifyOTPResponse> => {
-  const res = await api.post('/auth/verify-otp', payload)
+  const res = await api.post('/auth/verify', payload)
   return res.data
 }
 
 export const resetPasswordOTP = async(payload: getOTPRequest): Promise<getOTPResponse>  => {
-  const res = await api.post('/auth/forgot-password-otp', payload)
+  const res = await api.post('/auth/resetOTP', payload)
   return res.data
 }
 
 export const resetPassword = async(payload: loginRequest): Promise<authResponse> => {
-  const res = await api.post('/auth/forgot-password', payload)
+  const res = await api.post('/auth/resetPassword', payload)
   return res.data
 }
 export const register = async(payload: registerUser): Promise<authResponse> => {
@@ -31,7 +31,7 @@ export const register = async(payload: registerUser): Promise<authResponse> => {
   data.append('email', payload.email)
   data.append('password', payload.password)
 
-  const res = await api.post('/auth/new-reg', data)
+  const res = await api.post('/auth/register', data)
   return res.data
 }
 

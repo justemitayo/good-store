@@ -1,4 +1,4 @@
-'use cient'
+'use client'
 import {create} from  'zustand'
 import {persist, createJSONStorage} from 'zustand/middleware'
 import { Auth } from '../types/auth'

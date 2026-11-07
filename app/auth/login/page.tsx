@@ -22,6 +22,7 @@ export default function LoginPage() {
 
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log('form submitted')
     const formData = new FormData(e.currentTarget)
     const password =  formData.get('password') as string
         const isEmailValid = validateEmail(email);
@@ -37,6 +38,7 @@ export default function LoginPage() {
       {email: email.trim(), password},
       {
         onSuccess: async(res) => {
+          console.log('login response:', res)
           if(res.data?.accessToken){
             updateAuth(res.data)
           }
@@ -133,6 +135,7 @@ export default function LoginPage() {
 
       <Button
         type="submit"
+        onClick={() => console.log('button clicked')}
         disabled={loginUser.isPending}
         className="w-full font-medium"
       >

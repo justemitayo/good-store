@@ -1,6 +1,7 @@
 'use client'
 
 import { useGetOTP, useResetPasswordOTP, useVerifyOTP } from '@/app/hook/user/mutate';
+import { Input } from '@/components/primitives/input';
 import { Alert } from '@/components/ui/alert';
 import { OTPField, OTPFieldInput } from '@/components/ui/OTP';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -17,7 +18,8 @@ export default function VerifyOTPPage() {
   const [timer, setTimer] = useState(60);
   const [noResend, setNoResend] = useState(true);
   const [alert, setAlert] = useState<alerProp | null>(null); 
-  const [email, setEmail] = useState('')
+  const [email, setEmail] = useState('');
+  const [otp, setOTP] = useState('');
   const router = useRouter();
   const searchParams = useSearchParams()
   const getOTP = useGetOTP();
@@ -97,16 +99,7 @@ export default function VerifyOTPPage() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const formData = new FormData(e.currentTarget)
-    const otp = formData.get('otp') as string
-
-    if(!email || !otp) {
-      setAlert({
-        title: 'Missing Information',
-        description: 'Please provide both email and OTP.',
-      });
-      return
-    }
+   
     verifyOTP.mutate(
       {email, otp},
       {
@@ -163,12 +156,31 @@ export default function VerifyOTPPage() {
           {`Enter the OTP sent to ${email}`}
           </p>
         </div>
+                <div className="space-y-2 flex flex-col gap-2 mb-1">
+                  <label
+                    htmlFor="email"
+                    className="text-sm font-medium leading-none text-foreground"
+                  >
+                    Email Address
+                  </label>
+                  <Input
+                    variant="email"
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={email}
+                    readOnly
+                    required
+                    placeholder="Your email address"
+                    className="w-full"
+                  />
+                </div>
         <div>
-          <OTPField length={otpLength} id={id}>
+          <OTPField length={otpLength} id={id} mask onValueChange={(value) => setOTP(value)}>
             {Array.from({length: otpLength}, (_, index) => (
             <OTPFieldInput 
             aria-label={index === 0 ? undefined : `character ${index + 1} of ${otpLength}`}
-              key={index}  />
+              key={index} />
             ))}
           </OTPField>
           <span id={descriptionId} className="hidden m-0 text-sm text-neutral-600 dark:text-neutral-400">Enter the 6-character code we sent to your device.</span>

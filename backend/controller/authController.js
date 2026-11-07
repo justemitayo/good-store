@@ -69,6 +69,7 @@ export const SendOTP = async(req, res) => {
   }catch (err) {
     res.status(500).json({success:false, message: err.message })
   }
+  console.log('CREATED for email:', JSON.stringify(email))
 }
 
 export const verifyOTP = async(req, res) => {
@@ -83,17 +84,16 @@ export const verifyOTP = async(req, res) => {
 
 
   try{
-    const findOTP = await verify.findOne({email: email}).exec()
+    const findOTP = await verify.findOne({email: email}).exec();
     if(!findOTP) {
       return res.status(401).json({success: false, message: `OTP not found or expired. Please request a new OTP.`})
     }
 
     const checkOTP = await bcrypt.compare(otp, findOTP.otp)
 
+
     if(!checkOTP){
       return res.status(400).json({success: false, message: 'Incorrect OTP'})
-      
-
 
     } 
     await verify.deleteOne({email})
@@ -106,6 +106,7 @@ export const verifyOTP = async(req, res) => {
 
 export const registerUser = async(req, res) => {
   const {email, password, username} = req.body ?? {}
+  console.log(email, password, username)
 
   if(!email || !password || !username) {
     return res.status(400).json({success: false, message: "Email, Username and Password is required"})

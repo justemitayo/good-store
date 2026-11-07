@@ -47,7 +47,7 @@ export default function Navbar() {
               ):  <></>  }
               {auth ? (
                 <Link href="/account" className='hover:text-purple-100'>Account</Link>): (
-                <Link href='/auth/login' className='hover:text-purple-100'>Log in</Link>)
+                <Link href='/auth/register' className='hover:text-purple-100'>Sign in</Link>)
 
               }
 
@@ -83,7 +83,7 @@ export default function Navbar() {
               ):  <></>  }
               {auth ? (
                 <Link href="/account" className='hover:text-purple-100'>Account</Link>): (
-                <Link href='/auth/login' className='hover:text-purple-100'>Log in</Link>)
+                <Link href='/auth/register' className='hover:text-purple-100'>Sign in</Link>)
 
               }
 

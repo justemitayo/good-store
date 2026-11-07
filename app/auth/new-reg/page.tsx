@@ -12,7 +12,8 @@ import { useEffect, useState } from "react";
 export default function NewUser() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [username, setUsername] = useState('');
   const router = useRouter();
   const [alert, setAlert] = useState<alerProp | null>(null);
   const [showPassword, setShowPassword] =useState(false);
@@ -23,8 +24,6 @@ export default function NewUser() {
 
   const handleNewUser = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const username = formData.get('username') as string
 
     const payload = {
       email: email.trim(),
@@ -102,6 +101,8 @@ export default function NewUser() {
           id="username"
           name="username"
           type= 'text'
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           required
           placeholder="Your username"
           className="w-full"
