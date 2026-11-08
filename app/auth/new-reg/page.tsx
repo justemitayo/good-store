@@ -36,7 +36,7 @@ export default function NewUser() {
         payload,
         {
           onSuccess: async(res) => {
-            if(res.data?.accessToken){
+            if(res.data){
               updateAuth(res.data)
             }
             router.push('/')
