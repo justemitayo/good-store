@@ -1,14 +1,44 @@
+'use client'
 
-
+import { useState } from 'react';
 import { products } from '../types/product'
 import { useRouter } from 'next/navigation'
+import { useCartStore } from '../store/cart.store';
+
 
 interface prop {
   product: products
 }
 
 export default function ProductCard({product}: prop) {
-  const router = useRouter()
+  const router = useRouter();
+  const [add, setAdd] = useState(false);
+  const { cart, addToCart, removeFromCart} = useCartStore()
+
+  const handleToggle = () => {
+    setAdd((prev) => !prev)
+  };
+  const handleCartButton = () => {
+    if(add) {
+      const exist = cart.find((val) => val._id === product._id)
+      if(exist) {
+        removeFromCart(exist.cartId)
+     }
+     setAdd(false)
+  }
+  
+    addToCart({
+      _id: product._id,
+      name: product.name,
+      category: product.category,
+      price: product.price,
+      cartQuantity: 1,
+      image: product.image,
+      option: [],
+    });
+  
+}
+
   return (
     <div className='bg-purple-50/80 dark:bg-purple-950/50 border border-purple-500/50 dark:border-purple-800/30 rounded-xl max-w-[25rem] h-[27rem] w-full rounded-lg '
      onClick={() => router.push(`product/${product._id}`)}>
@@ -32,12 +62,17 @@ export default function ProductCard({product}: prop) {
         <h2 className='text-lg flex items-center'><span className='text-2xl'>$</span>{product.price}</h2>
         {product.quantity === 0 ? 
           <button 
+
             className='w-[5rem] bg-purple-500/20 p-1 rounded-lg cursor-not-allowed'
           >Add</button>:
           <button 
-          onClick={(e) => {e.stopPropagation()}}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleToggle();
+            handleCartButton()
+          }}
           className='w-[5rem] bg-purple-500 p-1 rounded-lg cursor-pointer hover:bg-violet-600 focus:outline-2 focus:outline-offset-2 focus:outline-violet-500 active:bg-violet-700'
-        >Add</button>
+        >{add ? 'Added' : 'Add'}</button>
         }     
       </div>
       </div>

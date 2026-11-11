@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect } from 'react'
+import React, { useEffect} from 'react'
 import { useGetProducts } from '../hook/product/query'
 import ProductCard from '../content/productCard'
 import Minibar from '../content/minibar'
