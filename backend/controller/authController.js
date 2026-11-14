@@ -69,7 +69,6 @@ export const SendOTP = async(req, res) => {
   }catch (err) {
     res.status(500).json({success:false, message: err.message })
   }
-  console.log('CREATED for email:', JSON.stringify(email))
 }
 
 export const verifyOTP = async(req, res) => {
@@ -106,7 +105,7 @@ export const verifyOTP = async(req, res) => {
 
 export const registerUser = async(req, res) => {
   const {email, password, username} = req.body ?? {}
-  console.log(email, password, username)
+
 
   if(!email || !password || !username) {
     return res.status(400).json({success: false, message: "Email, Username and Password is required"})
