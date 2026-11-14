@@ -29,12 +29,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-100vh antialiased`}
     >
  
-      <body>
+      <body className="flex min-h-full flex-col bg-background font-sans text-foreground w-screen overflow-x-hidden">
         <ProductClient>
           <AuthProvider>
           <ThemeProvider attribute='class' defaultTheme="system" enableSystem>
             <Navbar />
-            <main className=" mx-auto w-full px-4 sm:px-12 lg:px-16">
+            <main className="container-layout px-section w-full flex-1  pb-8 md:pb-12">
               {children}
             </main>
           </ThemeProvider>

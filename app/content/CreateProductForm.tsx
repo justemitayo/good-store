@@ -58,12 +58,12 @@ export default function CreateProductForm() {
           {previewImage ?  (
             <img src={URL.createObjectURL(previewImage)}
             alt='New Product'
-            className='md:h-[70vh] w-full object-cover '
+            className='md:h-[65.5vh] w-full object-cover '
             /> 
           ) : (
             <img src={DEFAULT_IMAGE.url}
             alt='placeholder'
-            className='md:h-[70vh] w-full object-cover '
+            className='md:h-[65.5vh] w-full object-cover '
             /> 
           )}
         </div>

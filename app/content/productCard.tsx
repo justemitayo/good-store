@@ -40,10 +40,10 @@ export default function ProductCard({product}: prop) {
 }
 
   return (
-    <div className='bg-purple-50/80 dark:bg-purple-950/50 border border-purple-500/50 dark:border-purple-800/30 rounded-xl max-w-[25rem] h-[27rem] w-full rounded-lg '
+    <div className='bg-purple-50/80 dark:bg-purple-950/50 border border-purple-500/50 dark:border-purple-800/30 rounded-xl md:max-w-[21rem] max-w-[15rem] min-h-[20rem] md:min-h-[27rem] w-full rounded-lg '
      onClick={() => router.push(`product/${product._id}`)}>
       <div className='relative'>
-      <img alt={product.name} src={product.image.url} className='w-full object-cover h-[14rem] rounded-t-lg'/>
+      <img alt={product.name} src={product.image.url} className='w-full object-cover h-[10rem] md:h-[14rem] rounded-t-lg'/>
 
       {product.quantity === 0 && (
         <div className='absolute inset-0 bg-black/50 dark:bg-white/50 flex items-center justify-center'>
@@ -53,7 +53,7 @@ export default function ProductCard({product}: prop) {
         </div>
       )}
       </div>
-      <div className='flex flex-col gap-[3rem]'>
+      <div className='flex flex-col gap-7 md:gap-[3rem]'>
       <div className='flex items-center justify-between p-3 gap-[1rem]'>
         <h2 className='text-lg truncate'>{product.name}</h2>
         <p className='flex shrink-0'>{product?.updatedAt ? new Date(product.updatedAt).toLocaleDateString('en-US') : new Date(product.createdAt).toLocaleDateString('en-US')}</p>

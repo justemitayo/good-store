@@ -7,8 +7,8 @@ import CreateProductForm from '../content/CreateProductForm'
 export default function NewProduct() {
   const router = useRouter()
   return (
-    <div className='mt-2'>
-      <div className='flex items-center mb-2'>
+    <div className=' container-layout px-section mt-2 '>
+      <div className='flex items-center m-5 '>
         <CircleChevronLeft  size={30} className='cursor-pointer' onClick={() => router.back()}/>
         <h1 className='text-center flex-1 text-lg font-bold'>Create Your Own Product</h1>
       </div>

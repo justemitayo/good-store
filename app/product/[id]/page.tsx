@@ -63,7 +63,7 @@ export default function ProductId() {
   
 
   return (
-    <div className='w-[100%] mt-3 flex flex-col gap-[2rem] w-full'>
+    <div className='container-layout px-section w-[100%] mt-3 flex flex-col gap-[2rem] w-full'>
       <div className='flex items-center justify-between'>
       <CircleChevronLeft  size={30} className='cursor-pointer' onClick={() => router.back()}/>
       <div className='flex gap-[1.5rem]'>

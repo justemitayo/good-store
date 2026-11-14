@@ -35,13 +35,14 @@ export default function ProductPage() {
   const filteredProducts = (category ? products.filter((product) => product.category === category) : products).sort((a, b) => new Date(b?.updatedAt).getTime() - new Date(a?.updatedAt).getTime() )
  
   return (
-    <div className=' w-[100%] mb-8' >
-      <div className='flex items-center justify-between sticky h-16 z-50 top-18 bg-white/80 dark:bg-black/80 backdrop-blur-md '>
+    <div className='container-layout w-[100%]' >
+      <div className=' px-section w-full'>
+      <div className='flex items-center justify-between sticky h-16 z-50 top-18 bg-white/80 dark:bg-black/80 backdrop-blur-md w-full'>
         <Minibar category={category} setCategory={setCategory} />
         <SearchModal search={search} setSearch={setSearch} />
       </div>
 
-      <div className=' grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[2rem] max-w-5xl mx-auto max-w-sm md:max-w-none px-4 w-full'>
+      <div className=' grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-7 md:gap-[2rem] w-full'>
         {filteredProducts?.map((product) => {
           return(
             <ProductCard key={product._id} product={product}/> 
@@ -57,7 +58,7 @@ export default function ProductPage() {
         </button>
         </div>
       )}
-
+    </div>
     </div> 
   )
 }

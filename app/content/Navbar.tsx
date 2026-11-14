@@ -21,7 +21,7 @@ export default function Navbar() {
     () => false
   )
   return (
-    <div className='h-18 top-0 sticky z-50 flex justify-between items-center border-b-4 border-purple-500 w-full px-4 sm:px-12 lg:px-16 bg-white/80 dark:bg-black/80 backdrop-blur-md'>
+    <div className='conatiner-layout px-section flex justify-between items-center px-4 sm:px-12 lg:px-16 min-h-18 top-0 sticky z-50 border-b-4 border-purple-500 w-full bg-white/80 dark:bg-black/80 backdrop-blur-md'>
       <Link className='text-3xl text-purple-500 font-bold' href='/' >Goodstore</Link>
       <div className='flex items-center gap-[1rem]'>
       {mounted && (

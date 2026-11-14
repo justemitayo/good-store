@@ -120,6 +120,35 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+
+  --container-max-width: 1440px;
+  --navbar-height: 80px;
+
+  --mobile-navbar-height: 60px;
+
+  --breakpoint-tablet: 648px;
+  --breakpoint-desktop: 1200px;
+
+}
+
+@utility container-layout {
+  max-width: var(--container-max-width);
+  margin-inline: auto;
+  width: 100%;
+}
+
+/* ~5.5–8% side inset — matches the Figma desktop frame, not the old 1204 box */
+@utility px-section {
+  padding-inline: 5vw;
+
+  @variant tablet {
+    padding-inline: 4vw;
+  }
+
+  @variant desktop {
+    padding-inline: 80px;
+  }
 }
 
 
