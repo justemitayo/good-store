@@ -17,6 +17,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import { useCartStore } from '@/app/store/cart.store'
+
 
 export default function ProductId() {
   const {id} = useParams()
@@ -24,10 +26,45 @@ export default function ProductId() {
   const product = data?.data
   const router = useRouter()
   const delProduct = useDelProduct()
+  const {cart, removeFromCart, addToCart} = useCartStore()
 
   const [selected, setSelected] = React.useState<{[key: string]: string}>({});
   const [readMore, setReadMore] = React.useState(false);
 
+
+  const selectedOption = Object.entries(selected).map(([title, value]) => ({
+    title,
+    value
+  }));
+
+  const existingItems = cart.find((item) => 
+    item._id === product?._id && selectedOption.length === item.option.length && 
+      item.option.every((option) => 
+        selectedOption.some((select) => select.title === option.title && select.value === option.value )
+      )
+  )
+
+  const isAdded = !!existingItems
+
+  const handleAddCart = () => {
+
+    if(!product) return
+
+    if(existingItems) {
+      removeFromCart(existingItems.cartId)
+    } 
+
+
+    addToCart({
+      _id: product._id,
+      name: product.name,
+      category: product.category,
+      price: product.price,
+      cartQuantity: 1,
+      image: product.image,
+      option: selectedOption
+    })
+  } 
   
   const handleDelete = () => {
     if(!product?._id) return
@@ -147,9 +184,12 @@ export default function ProductId() {
               className='w-[13rem] h-[3rem] text-lg flex items-center justify-center bg-purple-500/20  p-1 rounded-lg cursor-not-allowed'
             >Out of Stock</button>
             : <button 
-            onClick={(e) => {e.stopPropagation()}}
+            onClick={(e) => {
+              e.stopPropagation()
+              handleAddCart()
+            }}
             className='w-[13rem] h-[3rem] text-lg flex items-center justify-center bg-purple-500 p-1 rounded-lg cursor-pointer hover:bg-violet-600 focus:outline-2 focus:outline-offset-2 focus:outline-violet-500 active:bg-violet-700'
-          >Add</button>
+          >{isAdded ? 'Added' : 'Add'}</button>
           }
         </div>
         <div>

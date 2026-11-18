@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react';
 import { products } from '../types/product'
 import { useRouter } from 'next/navigation'
 import { useCartStore } from '../store/cart.store';
@@ -12,20 +11,16 @@ interface prop {
 
 export default function ProductCard({product}: prop) {
   const router = useRouter();
-  const [add, setAdd] = useState(false);
-  const { cart, addToCart, removeFromCart} = useCartStore()
+  const { cart, addToCart, removeFromCart} = useCartStore();
 
-  const handleToggle = () => {
-    setAdd((prev) => !prev)
-  };
+  const existingItems = cart.find((item) => item._id === product._id && item.option.length === 0) 
+
+  const isAdded = !!existingItems; 
   const handleCartButton = () => {
-    if(add) {
-      const exist = cart.find((val) => val._id === product._id)
-      if(exist) {
-        removeFromCart(exist.cartId)
-     }
-     setAdd(false)
-  }
+   if(existingItems) {
+    removeFromCart(existingItems.cartId);
+    return
+   }
   
     addToCart({
       _id: product._id,
@@ -40,7 +35,7 @@ export default function ProductCard({product}: prop) {
 }
 
   return (
-    <div className='bg-purple-50/80 dark:bg-purple-950/50 border border-purple-500/50 dark:border-purple-800/30 rounded-xl md:max-w-[21rem] max-w-[15rem] min-h-[20rem] md:min-h-[27rem] w-full rounded-lg '
+    <div className='bg-purple-50/80 dark:bg-purple-950/50 border border-purple-500/50 dark:border-purple-800/30 rounded-xl md:max-w-[21rem] max-w-[15rem] min-h-[20rem] md:min-h-[27rem] w-full rounded-lg transition-transform ease-in-out duration-300 hover:scale-105 '
      onClick={() => router.push(`product/${product._id}`)}>
       <div className='relative'>
       <img alt={product.name} src={product.image.url} className='w-full object-cover h-[10rem] md:h-[14rem] rounded-t-lg'/>
@@ -67,12 +62,11 @@ export default function ProductCard({product}: prop) {
           >Add</button>:
           <button 
           onClick={(e) => {
-            e.stopPropagation();
-            handleToggle();
+            e.stopPropagation()
             handleCartButton()
           }}
           className='w-[5rem] bg-purple-500 p-1 rounded-lg cursor-pointer hover:bg-violet-600 focus:outline-2 focus:outline-offset-2 focus:outline-violet-500 active:bg-violet-700'
-        >{add ? 'Added' : 'Add'}</button>
+        >{isAdded ? 'Added' : 'Add'}</button>
         }     
       </div>
       </div>

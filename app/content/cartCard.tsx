@@ -11,8 +11,8 @@ export const CartCard = () => {
       {
         cart.map((cart) => (
           <div key={cart.cartId} className='max-w-[400px] h-[160px] shrink-0 overflow-hidden bg-transparent border border-purple-600 rounded-lg flex items-center gap-4 '>
-            <img alt='' src={cart.image?.url} className='w-[20%] h-full object-cover rounded-l-lg' />
-            <div>
+            <img alt='' src={cart.image?.url} className='w-[35%] h-full object-cover rounded-l-lg' />
+            <div className=' flex flex-col  bg-blue-900 w-[65%] pr-3'>
               <div className='flex items-center justify-between w-full'>
                 <h3>{cart.name}</h3>
                 <button onClick={() => removeFromCart(cart.cartId)} className='cursor-pointer'>
